@@ -2,9 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+    android:id="@+id/action_settings"
+    android:orderInCategory="100"
+    android:title="@string/action_settings"
+    app:showAsAction="never" />
+
 </menu>
+
+
+
+    <!--<item android:title="Take photo" android:id="@+id/takePhoto">-->
+    <!--</item>-->
+
+    <!--<item android:title="Tesseract effect" android:id="@+id/tesseractEffect">-->
+    <!--</item>-->
+
+
