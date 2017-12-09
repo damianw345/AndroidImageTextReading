@@ -11,22 +11,23 @@ android:orientation="vertical"
 android:weightSum="10"
 tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">
 
-<ImageView
-    android:id="@+id/imageView"
-    android:layout_weight="9"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent" />
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take new photo"
+        android:onClick="jumpToTakePhotoActivity"/>
 
-<Button
-    android:id="@+id/btnCamera"
-    android:layout_weight="1"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:background="@android:color/holo_red_dark"
-    android:textColor="@android:color/white"
-    android:text="Open Camera"
-    />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Load photo" />
 
-
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show shopping stats" />
 </LinearLayout>
 

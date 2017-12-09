@@ -11,14 +11,19 @@
     <RelativeLayout
         android:id="@+id/ImageContainer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="211dp"
         android:background="#ffffff">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/test_image" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/paragon" />
+
+        <!--android:src="@drawable/test_image" />-->
 
     </RelativeLayout>
 

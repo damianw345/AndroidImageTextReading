@@ -40,12 +40,12 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <!--<activity-->
-            <!--android:name=".OptionsMenuActivity"-->
-            <!--android:label="@string/app_name"-->
-            <!--android:theme="@style/AppTheme.NoActionBar"-->
-            <!--&gt;-->
-        <!--</activity>-->
+        <activity
+            android:name=".TakePhotoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>
