@@ -83,7 +83,14 @@ public class TakePhotoActivity extends AppCompatActivity {
                 //add picture to gallery
                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");
 
-                Intent intent = new Intent(getApplicationContext(), TesseractResultActivity.class);
+                //Convert photo to byte array so it can be passed to another activity
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                //insert converted image into intent
+                Intent intent = new Intent(this, TesseractResultActivity.class);
+                intent.putExtra("image", byteArray);
 
                 //jump to TesseractResultActivity
                 startActivity(intent);

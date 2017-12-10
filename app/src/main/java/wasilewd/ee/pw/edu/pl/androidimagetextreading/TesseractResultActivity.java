@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -31,8 +32,14 @@ public class TesseractResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tesseract_result);
 
-//        init image
-        image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);
+//        test image
+//        image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);
+
+        byte[] byteArray = getIntent().getByteArrayExtra("image");
+        image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+        ImageView result = (ImageView)findViewById(R.id.taken_photo_view);
+        result.setImageBitmap(image);
 
         //initialize Tesseract API
         String language = "pol";
