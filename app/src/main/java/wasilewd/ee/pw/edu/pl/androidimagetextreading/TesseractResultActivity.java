@@ -20,21 +20,18 @@ import java.io.OutputStream;
  * Created by dw on 07/12/17.
  */
 
-
 public class TesseractResultActivity extends Activity {
 
     Bitmap image;
     private TessBaseAPI mTess;
     String datapath = "";
 
-//    String datapath = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tesseract_result);
 
-        //init image
+//        init image
         image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);
 
         //initialize Tesseract API

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -62,7 +63,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                 Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  // prefix
-                ".jpg",         // suffix
+                ".jpg",   // suffix
                 storageDir      // directory
         );
 
@@ -81,6 +82,11 @@ public class TakePhotoActivity extends AppCompatActivity {
 
                 //add picture to gallery
                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");
+
+                Intent intent = new Intent(getApplicationContext(), TesseractResultActivity.class);
+
+                //jump to TesseractResultActivity
+                startActivity(intent);
 
             } catch (IOException e) {
                 e.printStackTrace();
