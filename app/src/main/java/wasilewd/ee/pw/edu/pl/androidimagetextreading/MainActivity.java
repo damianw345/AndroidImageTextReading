@@ -18,4 +18,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),TakePhotoActivity.class);
         startActivity(intent);
     }
+    public void jumpToTesseractResultActivity(View view){
+        Intent intent = new Intent(getApplicationContext(),TesseractResultActivity.class);
+        startActivity(intent);
+    }
+    public void jumpToLoadPhotoActivity(View view){
+        Intent intent = new Intent(getApplicationContext(),LoadPhotoActivity.class);
+        startActivity(intent);
+    }
 }

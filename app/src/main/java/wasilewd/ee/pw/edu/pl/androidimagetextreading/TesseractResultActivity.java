@@ -1,11 +1,19 @@
 package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -23,16 +31,43 @@ import java.io.OutputStream;
 public class TesseractResultActivity extends Activity {
 
     Bitmap image;
+    String imagePath;
+    Uri imageUri;
     private TessBaseAPI mTess;
     String datapath = "";
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tesseract_result);
+        imageUri  = (Uri)getIntent().getExtras().get("data");
+        imagePath = (String)imageUri.getEncodedPath();
+//        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+//        spinner.setVisibility(View.INVISIBLE);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_DENIED) {
+
+                Log.d("permission", "permission denied to WRITE_EXTERNAL_STORAGE - requesting it");
+                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
+
+            }
+        }
 //        init image
-        image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);
+        image = null;
+        try {
+            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageBitmap(image);
 
         //initialize Tesseract API
         String language = "pol";
@@ -43,8 +78,9 @@ public class TesseractResultActivity extends Activity {
 
         mTess.init(datapath, language);
     }
-
     public void processImage(View view){
+//        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+//        spinner.setVisibility(View.VISIBLE);
         String OCRresult = null;
         mTess.setImage(image);
         OCRresult = mTess.getUTF8Text();
