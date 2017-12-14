@@ -1,0 +1,295 @@
+[1mdiff --git a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/MainActivity.java b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/MainActivity.java[m
+[1mindex b4b48c7..f6efb63 100644[m
+[1m--- a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/MainActivity.java[m
+[1m+++ b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/MainActivity.java[m
+[36m@@ -18,4 +18,5 @@[m [mpublic class MainActivity extends AppCompatActivity {[m
+         Intent intent = new Intent(getApplicationContext(),TakePhotoActivity.class);[m
+         startActivity(intent);[m
+     }[m
+[32m+[m
+ }[m
+[1mdiff --git a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TakePhotoActivity.java b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TakePhotoActivity.java[m
+[1mindex 9eaa9e5..fe551ee 100644[m
+[1m--- a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TakePhotoActivity.java[m
+[1m+++ b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TakePhotoActivity.java[m
+[36m@@ -25,6 +25,7 @@[m [mpublic class TakePhotoActivity extends AppCompatActivity {[m
+     private ImageView mImageView;[m
+ [m
+     private String imageFileName;[m
+[32m+[m[32m    private String imageAbsolutePath;[m
+ [m
+     @Override[m
+     protected void onCreate(Bundle savedInstanceState) {[m
+[36m@@ -63,12 +64,16 @@[m [mpublic class TakePhotoActivity extends AppCompatActivity {[m
+                 Environment.DIRECTORY_PICTURES);[m
+         File image = File.createTempFile([m
+                 imageFileName,  // prefix[m
+[31m-                ".jpg",   // suffix[m
+[32m+[m[32m//                ".jpg",   // suffix[m
+[32m+[m[32m                ".png",   // suffix[m
+                 storageDir      // directory[m
+         );[m
+ [m
+         // Save a file: path for use with ACTION_VIEW intents[m
+[31m-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();[m
+[32m+[m[32m        imageAbsolutePath = image.getAbsolutePath();[m
+[32m+[m[32m        mCurrentPhotoPath = "file:" + imageAbsolutePath;[m
+[32m+[m
+[32m+[m[32m        System.out.println(imageAbsolutePath + " ###");[m
+         return image;[m
+     }[m
+ [m
+[36m@@ -84,13 +89,16 @@[m [mpublic class TakePhotoActivity extends AppCompatActivity {[m
+                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");[m
+ [m
+                 //Convert photo to byte array so it can be passed to another activity[m
+[31m-                ByteArrayOutputStream stream = new ByteArrayOutputStream();[m
+[31m-                mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);[m
+[31m-                byte[] byteArray = stream.toByteArray();[m
+[32m+[m[32m//                ByteArrayOutputStream stream = new ByteArrayOutputStream();[m
+[32m+[m[32m//                mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);[m
+[32m+[m[32m//                byte[] byteArray = stream.toByteArray();[m
+[32m+[m[32m//[m
+[32m+[m[32m//                //insert converted image into intent[m
+[32m+[m[32m//                Intent intent = new Intent(this, TesseractResultActivity.class);[m
+[32m+[m[32m//                intent.putExtra("image", byteArray);[m
+ [m
+[31m-                //insert converted image into intent[m
+                 Intent intent = new Intent(this, TesseractResultActivity.class);[m
+[31m-                intent.putExtra("image", byteArray);[m
+[32m+[m[32m                intent.putExtra("imagePath", imageAbsolutePath);[m
+ [m
+                 //jump to TesseractResultActivity[m
+                 startActivity(intent);[m
+[1mdiff --git a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TesseractResultActivity.java b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TesseractResultActivity.java[m
+[1mindex db37594..c5dfdc4 100644[m
+[1m--- a/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TesseractResultActivity.java[m
+[1m+++ b/app/src/main/java/wasilewd/ee/pw/edu/pl/androidimagetextreading/TesseractResultActivity.java[m
+[36m@@ -1,12 +1,147 @@[m
+[32m+[m[32m//package wasilewd.ee.pw.edu.pl.androidimagetextreading;[m
+[32m+[m[32m//[m
+[32m+[m[32m//import android.app.Activity;[m
+[32m+[m[32m//import android.content.res.AssetManager;[m
+[32m+[m[32m//import android.graphics.Bitmap;[m
+[32m+[m[32m//import android.graphics.BitmapFactory;[m
+[32m+[m[32m//import android.os.Bundle;[m
+[32m+[m[32m//import android.view.View;[m
+[32m+[m[32m//import android.widget.ImageView;[m
+[32m+[m[32m//import android.widget.TextView;[m
+[32m+[m[32m//[m
+[32m+[m[32m//import com.googlecode.tesseract.android.TessBaseAPI;[m
+[32m+[m[32m//[m
+[32m+[m[32m//import java.io.File;[m
+[32m+[m[32m//import java.io.FileInputStream;[m
+[32m+[m[32m//import java.io.FileNotFoundException;[m
+[32m+[m[32m//import java.io.FileOutputStream;[m
+[32m+[m[32m//import java.io.IOException;[m
+[32m+[m[32m//import java.io.InputStream;[m
+[32m+[m[32m//import java.io.OutputStream;[m
+[32m+[m[32m///**[m
+[32m+[m[32m// * Created by dw on 07/12/17.[m
+[32m+[m[32m// */[m
+[32m+[m[32m//[m
+[32m+[m[32m//public class TesseractResultActivity extends Activity {[m
+[32m+[m[32m//[m
+[32m+[m[32m//    Bitmap image;[m
+[32m+[m[32m//    private TessBaseAPI mTess;[m
+[32m+[m[32m//    String datapath = "";[m
+[32m+[m[32m//[m
+[32m+[m[32m//    @Override[m
+[32m+[m[32m//    protected void onCreate(Bundle savedInstanceState) {[m
+[32m+[m[32m//        super.onCreate(savedInstanceState);[m
+[32m+[m[32m//        setContentView(R.layout.tesseract_result);[m
+[32m+[m[32m//[m
+[32m+[m[32m////        test image[m
+[32m+[m[32m////        image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);[m
+[32m+[m[32m//[m
+[32m+[m[32m////        byte[] byteArray = getIntent().getByteArrayExtra("image");[m
+[32m+[m[32m////        image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);[m
+[32m+[m[32m//[m
+[32m+[m[32m//        System.out.println("### start of activity");[m
+[32m+[m[32m//[m
+[32m+[m[32m//        String imagePath = getIntent().getStringExtra("imagePath");[m
+[32m+[m[32m//[m
+[32m+[m[32m//        System.out.println("### imagePath:" + imagePath);[m
+[32m+[m[32m//[m
+[32m+[m[32m//        image = BitmapFactory.decodeFile(imagePath);[m
+[32m+[m[32m//[m
+[32m+[m[32m//        if (image == null){[m
+[32m+[m[32m//            System.out.println("### image is null");[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//[m
+[32m+[m[32m//        System.out.println("### image decoded");[m
+[32m+[m[32m//[m
+[32m+[m[32m//        ImageView result = (ImageView)findViewById(R.id.taken_photo_view);[m
+[32m+[m[32m//        result.setImageBitmap(image);[m
+[32m+[m[32m//[m
+[32m+[m[32m//        //initialize Tesseract API[m
+[32m+[m[32m//        String language = "pol";[m
+[32m+[m[32m//        datapath = getFilesDir()+ "/tesseract/";[m
+[32m+[m[32m//        mTess = new TessBaseAPI();[m
+[32m+[m[32m//        checkFile(new File(datapath + "tessdata/"));[m
+[32m+[m[32m//        mTess.init(datapath, language);[m
+[32m+[m[32m//    }[m
+[32m+[m[32m//[m
+[32m+[m[32m//    public void processImage(View view){[m
+[32m+[m[32m//        try{[m
+[32m+[m[32m//            System.out.println("### In process image");[m
+[32m+[m[32m//            String OCRresult = null;[m
+[32m+[m[32m//            mTess.setImage(image);[m
+[32m+[m[32m//            OCRresult = mTess.getUTF8Text();[m
+[32m+[m[32m//            TextView OCRTextView = (TextView) findViewById(R.id.OCRTextView);[m
+[32m+[m[32m//            OCRTextView.setText(OCRresult);[m
+[32m+[m[32m//            System.out.println("### End of process image");[m
+[32m+[m[32m//        } catch (Exception e){[m
+[32m+[m[32m//            e.printStackTrace();[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//[m
+[32m+[m[32m//    }[m
+[32m+[m[32m//[m
+[32m+[m[32m//    private void checkFile(File dir) {[m
+[32m+[m[32m//        if (!dir.exists()&& dir.mkdirs()){[m
+[32m+[m[32m//            copyFiles();[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//        if(dir.exists()) {[m
+[32m+[m[32m////            String datafilepath = datapath+ "/tessdata/eng.traineddata";[m
+[32m+[m[32m//            String datafilepath = datapath+ "/tessdata/pol.traineddata";[m
+[32m+[m[32m//            File datafile = new File(datafilepath);[m
+[32m+[m[32m//[m
+[32m+[m[32m//            if (!datafile.exists()) {[m
+[32m+[m[32m//                copyFiles();[m
+[32m+[m[32m//            }[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//    }[m
+[32m+[m[32m//[m
+[32m+[m[32m//    private void copyFiles() {[m
+[32m+[m[32m//        try {[m
+[32m+[m[32m////            String filepath = datapath + "/tessdata/eng.traineddata";[m
+[32m+[m[32m//            String filepath = datapath + "/tessdata/pol.traineddata";[m
+[32m+[m[32m//            AssetManager assetManager = getAssets();[m
+[32m+[m[32m//[m
+[32m+[m[32m//            InputStream instream = assetManager.open("tessdata/pol.traineddata");[m
+[32m+[m[32m//            OutputStream outstream = new FileOutputStream(filepath);[m
+[32m+[m[32m//[m
+[32m+[m[32m//            byte[] buffer = new byte[1024];[m
+[32m+[m[32m//            int read;[m
+[32m+[m[32m//            while ((read = instream.read(buffer)) != -1) {[m
+[32m+[m[32m//                outstream.write(buffer, 0, read);[m
+[32m+[m[32m//            }[m
+[32m+[m[32m//[m
+[32m+[m[32m//            outstream.flush();[m
+[32m+[m[32m//            outstream.close();[m
+[32m+[m[32m//            instream.close();[m
+[32m+[m[32m//[m
+[32m+[m[32m//            File file = new File(filepath);[m
+[32m+[m[32m//            if (!file.exists()) {[m
+[32m+[m[32m//                throw new FileNotFoundException();[m
+[32m+[m[32m//            }[m
+[32m+[m[32m//        } catch (FileNotFoundException e) {[m
+[32m+[m[32m//            e.printStackTrace();[m
+[32m+[m[32m//        } catch (IOException e) {[m
+[32m+[m[32m//            e.printStackTrace();[m
+[32m+[m[32m//        }[m
+[32m+[m[32m//    }[m
+[32m+[m[32m//}[m
+[32m+[m[32m//[m
+[32m+[m
+ package wasilewd.ee.pw.edu.pl.androidimagetextreading;[m
+ [m
+[32m+[m[32mimport android.Manifest;[m
+ import android.app.Activity;[m
+[32m+[m[32mimport android.app.ProgressDialog;[m
+[32m+[m[32mimport android.content.pm.PackageManager;[m
+ import android.content.res.AssetManager;[m
+ import android.graphics.Bitmap;[m
+[31m-import android.graphics.BitmapFactory;[m
+[32m+[m
+[32m+[m[32mimport android.net.Uri;[m
+ import android.os.Bundle;[m
+[32m+[m[32mimport android.provider.MediaStore;[m
+[32m+[m[32mimport android.util.Log;[m
+ import android.view.View;[m
+ import android.widget.ImageView;[m
+[32m+[m[32mimport android.widget.ProgressBar;[m
+ import android.widget.TextView;[m
+ [m
+ import com.googlecode.tesseract.android.TessBaseAPI;[m
+[36m@@ -24,22 +159,42 @@[m [mimport java.io.OutputStream;[m
+ public class TesseractResultActivity extends Activity {[m
+ [m
+     Bitmap image;[m
+[32m+[m[32m    String imagePath;[m
+[32m+[m[32m    Uri imageUri;[m
+     private TessBaseAPI mTess;[m
+     String datapath = "";[m
+[32m+[m[32m    private static final int PERMISSION_REQUEST_CODE = 1;[m
+[32m+[m[32m    private ProgressBar spinner;[m
+ [m
+     @Override[m
+     protected void onCreate(Bundle savedInstanceState) {[m
+         super.onCreate(savedInstanceState);[m
+         setContentView(R.layout.tesseract_result);[m
+[32m+[m[32m        imageUri  = (Uri)getIntent().getExtras().get("data");[m
+[32m+[m[32m        imagePath = (String)imageUri.getEncodedPath();[m
+[32m+[m[32m//        spinner = (ProgressBar)findViewById(R.id.progressBar1);[m
+[32m+[m[32m//        spinner.setVisibility(View.INVISIBLE);[m
+ [m
+[31m-//        test image[m
+[31m-//        image = BitmapFactory.decodeResource(getResources(), R.drawable.paragon);[m
+[32m+[m[32m        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {[m
+ [m
+[31m-        byte[] byteArray = getIntent().getByteArrayExtra("image");[m
+[31m-        image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);[m
+[32m+[m[32m            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)[m
+[32m+[m[32m                    == PackageManager.PERMISSION_DENIED) {[m
+ [m
+[31m-        ImageView result = (ImageView)findViewById(R.id.taken_photo_view);[m
+[31m-        result.setImageBitmap(image);[m
+[32m+[m[32m                Log.d("permission", "permission denied to WRITE_EXTERNAL_STORAGE - requesting it");[m
+[32m+[m[32m                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};[m
+[32m+[m
+[32m+[m[32m                requestPermissions(permissions, PERMISSION_REQUEST_CODE);[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m//        init image[m
+[32m+[m[32m        image = null;[m
+[32m+[m[32m        try {[m
+[32m+[m[32m            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);[m
+[32m+[m[32m        } catch (IOException e) {[m
+[32m+[m[32m            e.printStackTrace();[m
+[32m+[m[32m        }[m
+[32m+[m[32m        ImageView imageView = (ImageView) findViewById(R.id.taken_photo_view);[m
+[32m+[m[32m        imageView.setImageBitmap(image);[m
+ [m
+         //initialize Tesseract API[m
+         String language = "pol";[m
+[36m@@ -50,8 +205,9 @@[m [mpublic class TesseractResultActivity extends Activity {[m
+ [m
+         mTess.init(datapath, language);[m
+     }[m
+[31m-[m
+     public void processImage(View view){[m
+[32m+[m[32m//        spinner = (ProgressBar)findViewById(R.id.progressBar1);[m
+[32m+[m[32m//        spinner.setVisibility(View.VISIBLE);[m
+         String OCRresult = null;[m
+         mTess.setImage(image);[m
+         OCRresult = mTess.getUTF8Text();[m
+[36m@@ -105,3 +261,4 @@[m [mpublic class TesseractResultActivity extends Activity {[m
+     }[m
+ }[m
+ [m
+[41m+[m
+[1mdiff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml[m
+[1mindex 464577a..d972be6 100644[m
+[1m--- a/app/src/main/res/layout/activity_main.xml[m
+[1m+++ b/app/src/main/res/layout/activity_main.xml[m
+[36m@@ -22,7 +22,8 @@[m [mtools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">[m
+         android:id="@+id/button2"[m
+         android:layout_width="match_parent"[m
+         android:layout_height="wrap_content"[m
+[31m-        android:text="Load photo" />[m
+[32m+[m[32m        android:text="Load photo"[m
+[32m+[m[32m        android:onClick="jumpToLoadPhotoActivity"/>[m
+ [m
+     <Button[m
+         android:id="@+id/button3"[m

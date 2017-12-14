@@ -22,7 +22,8 @@ tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Load photo" />
+        android:text="Load photo"
+        android:onClick="jumpToLoadPhotoActivity"/>
 
     <Button
         android:id="@+id/button3"

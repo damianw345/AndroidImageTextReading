@@ -23,7 +23,7 @@ public class IntroActivity extends Activity {
 
                     //zmien tutaj zeby inna klasa startowala pierwsza
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                    Intent intent = new Intent(getApplicationContext(),TesseractResultActivity.class);
+//                    Intent intent = new Intent(getApplicationContext(),ProcessTakenPhotoActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (InterruptedException e) {

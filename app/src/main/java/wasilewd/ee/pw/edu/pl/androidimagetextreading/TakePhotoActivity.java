@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -25,6 +24,8 @@ public class TakePhotoActivity extends AppCompatActivity {
     private ImageView mImageView;
 
     private String imageFileName;
+    private String imageAbsolutePath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        imageAbsolutePath = image.getAbsolutePath();
         return image;
     }
 
@@ -83,17 +85,13 @@ public class TakePhotoActivity extends AppCompatActivity {
                 //add picture to gallery
                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");
 
-                //Convert photo to byte array so it can be passed to another activity
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                mImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
                 //insert converted image into intent
-                Intent intent = new Intent(this, TesseractResultActivity.class);
-                intent.putExtra("image", byteArray);
+                Intent intent = new Intent(this, ProcessTakenPhotoActivity.class);
+                intent.putExtra("data", imageAbsolutePath);
 
-                //jump to TesseractResultActivity
+                //jump to ProcessTakenPhotoActivity
                 startActivity(intent);
+                finish();
 
             } catch (IOException e) {
                 e.printStackTrace();
