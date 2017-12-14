@@ -56,20 +56,31 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/OCRTextContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#e4e3e3"
-        android:id="@+id/OCRTextContainer">
+        android:layout_height="160dp"
+        android:background="#e4e3e3">
 
         <TextView
+            android:id="@+id/OCRTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OCR Text will appear here"
-            android:id="@+id/OCRTextView"
-            android:textSize="18dp"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:background="#dedede"
-            android:textColor="#a3a3a3" />
+            android:text="OCR Text will appear here"
+            android:textColor="#a3a3a3"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/EditableText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Edytuj tekst po odczytaniu z paragonu" />
     </RelativeLayout>
 </LinearLayout>

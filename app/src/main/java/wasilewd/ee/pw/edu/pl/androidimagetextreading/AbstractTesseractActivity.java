@@ -3,9 +3,9 @@ package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -33,31 +33,34 @@ public abstract class AbstractTesseractActivity extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void initTesseractAPI(){
+    protected void initTesseractAPI() {
 
-    String language = "pol";
-    datapath = getFilesDir()+ "/tesseract/";
-    mTess = new TessBaseAPI();
+        String language = "pol";
+        datapath = getFilesDir() + "/tesseract/";
+        mTess = new TessBaseAPI();
 
-    checkFile(new File(datapath + "tessdata/"));
-    mTess.init(datapath, language);
+        checkFile(new File(datapath + "tessdata/"));
+        mTess.init(datapath, language);
 
     }
-    protected void processImage(View view){
+
+    protected void processImage(View view) {
         String OCRresult = null;
         mTess.setImage(image);
         OCRresult = mTess.getUTF8Text();
         TextView OCRTextView = (TextView) findViewById(R.id.OCRTextView);
+        EditText editText = findViewById(R.id.EditableText);
         OCRTextView.setText(OCRresult);
+        editText.setText(OCRresult);
     }
 
     private void checkFile(File dir) {
-        if (!dir.exists()&& dir.mkdirs()){
+        if (!dir.exists() && dir.mkdirs()) {
             copyFiles();
         }
-        if(dir.exists()) {
+        if (dir.exists()) {
 //            String datafilepath = datapath+ "/tessdata/eng.traineddata";
-            String datafilepath = datapath+ "/tessdata/pol.traineddata";
+            String datafilepath = datapath + "/tessdata/pol.traineddata";
             File datafile = new File(datafilepath);
 
             if (!datafile.exists()) {
