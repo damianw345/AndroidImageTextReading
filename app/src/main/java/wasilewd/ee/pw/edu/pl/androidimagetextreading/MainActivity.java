@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),LoadPhotoActivity.class);
         startActivity(intent);
     }
+
+    public void jumpToCropperActivity(View view){
+        Intent intent = new Intent(getApplicationContext(),CropperActivity.class);
+        startActivity(intent);
+    }
 }
