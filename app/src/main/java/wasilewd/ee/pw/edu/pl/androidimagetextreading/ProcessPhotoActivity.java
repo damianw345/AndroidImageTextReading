@@ -8,25 +8,39 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
  * Created by dw on 14/12/17.
  */
 
-public class ProcessLoadedPhotoActivity extends AbstractTesseractActivity {
+public class ProcessPhotoActivity extends AbstractTesseractActivity {
 
     private String imagePath;
-    private Uri imageUri;
+    private Uri receivedUri;
+    private Uri takenPhotoUri;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private boolean photoTaken = false;
+    private boolean photoLoaded = false;
+  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tesseract_result);
 
-        imageUri  = (Uri)getIntent().getExtras().get("data");
-        imagePath = (String)imageUri.getEncodedPath();
+        if ((Uri)getIntent().getExtras().get("loadedPhoto") != null){
+            photoLoaded = true;
+            receivedUri = (Uri)getIntent().getExtras().get("loadedPhoto");
+        }
+
+        if ((Uri)getIntent().getExtras().get("takenPhoto") != null){
+            photoTaken = true;
+            receivedUri = (Uri)getIntent().getExtras().get("takenPhoto");
+            imagePath = (String) receivedUri.getEncodedPath();
+            takenPhotoUri = Uri.fromFile(new File(imagePath));
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
@@ -41,10 +55,16 @@ public class ProcessLoadedPhotoActivity extends AbstractTesseractActivity {
         //init image
         image = null;
         try {
-            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            if (photoLoaded){
+            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), receivedUri);
+            } else if (photoTaken){
+                image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), takenPhotoUri);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setImageBitmap(image);
 

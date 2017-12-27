@@ -46,10 +46,10 @@ public class LoadPhotoActivity extends Activity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Intent intent = new Intent(getApplicationContext(), ProcessLoadedPhotoActivity.class);
-            intent.putExtra("data", selectedImage);
+            Intent intent = new Intent(getApplicationContext(), ProcessPhotoActivity.class);
+            intent.putExtra("loadedPhoto", selectedImage);
 
-            //jump to ProcessLoadedPhotoActivity
+            //jump to ProcessPhotoActivity
             startActivity(intent);
             finish();
         }

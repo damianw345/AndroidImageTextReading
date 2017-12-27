@@ -35,14 +35,14 @@
         </activity>
 
 
-        <activity
-            android:name=".ProcessTakenPhotoActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <!--<activity-->
+            <!--android:name=".ProcessTakenPhotoActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+        <!--</activity>-->
 
         <activity
-            android:name=".ProcessLoadedPhotoActivity"
+            android:name=".ProcessPhotoActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

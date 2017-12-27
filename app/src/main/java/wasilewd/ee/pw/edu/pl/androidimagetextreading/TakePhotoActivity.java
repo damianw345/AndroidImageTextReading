@@ -86,8 +86,17 @@ public class TakePhotoActivity extends AppCompatActivity {
                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");
 
                 //insert converted image into intent
-                Intent intent = new Intent(this, ProcessTakenPhotoActivity.class);
-                intent.putExtra("data", imageAbsolutePath);
+//                Intent intent = new Intent(this, ProcessTakenPhotoActivity.class);
+//                intent.putExtra("data", imageAbsolutePath);
+
+                Uri imageUri = Uri.parse(imageAbsolutePath);
+
+                Intent intent = new Intent(this, ProcessPhotoActivity.class);
+                intent.putExtra("takenPhoto", imageUri);
+
+                System.out.println("Data var: " + data);
+                System.out.println("Saved URI: " + imageAbsolutePath);
+                System.out.println("Image URI: " + imageUri);
 
                 //jump to ProcessTakenPhotoActivity
                 startActivity(intent);
