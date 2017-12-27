@@ -25,7 +25,7 @@ public abstract class AbstractTesseractActivity extends Activity {
 
     protected TessBaseAPI mTess;
     protected String datapath = "";
-    protected Bitmap image;
+    protected Bitmap tesseractImage;
 
 
     @Override
@@ -46,7 +46,7 @@ public abstract class AbstractTesseractActivity extends Activity {
 
     protected void processImage(View view) {
         String OCRresult = null;
-        mTess.setImage(image);
+        mTess.setImage(tesseractImage);
         OCRresult = mTess.getUTF8Text();
         TextView OCRTextView = (TextView) findViewById(R.id.OCRTextView);
         EditText editText = findViewById(R.id.EditableText);

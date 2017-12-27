@@ -35,10 +35,10 @@ public class LoadPhotoActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
+            Uri imageUri = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getContentResolver().query(selectedImage,
+            Cursor cursor = getContentResolver().query(imageUri,
                     filePathColumn, null, null, null);
             cursor.moveToFirst();
 
@@ -47,7 +47,7 @@ public class LoadPhotoActivity extends Activity {
             cursor.close();
 
             Intent intent = new Intent(getApplicationContext(), ProcessPhotoActivity.class);
-            intent.putExtra("loadedPhoto", selectedImage);
+            intent.putExtra("loadedPhoto", imageUri);
 
             //jump to ProcessPhotoActivity
             startActivity(intent);

@@ -17,17 +17,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),TakePhotoActivity.class);
         startActivity(intent);
     }
-//    public void jumpToTesseractResultActivity(View view){
-//        Intent intent = new Intent(getApplicationContext(),ProcessTakenPhotoActivity.class);
-//        startActivity(intent);
-//    }
+
+
     public void jumpToLoadPhotoActivity(View view){
         Intent intent = new Intent(getApplicationContext(),LoadPhotoActivity.class);
         startActivity(intent);
     }
 
     public void jumpToCropperActivity(View view){
-        Intent intent = new Intent(getApplicationContext(),CropperActivity.class);
+        Intent intent = new Intent(getApplicationContext(),ProcessPhotoActivity.class);
         startActivity(intent);
     }
 }

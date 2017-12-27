@@ -57,7 +57,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        // Create an image file name
+        // Create an tesseractImage file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
@@ -85,18 +85,9 @@ public class TakePhotoActivity extends AppCompatActivity {
                 //add picture to gallery
                 MediaStore.Images.Media.insertImage(getContentResolver(), mImageBitmap, imageFileName ,"");
 
-                //insert converted image into intent
-//                Intent intent = new Intent(this, ProcessTakenPhotoActivity.class);
-//                intent.putExtra("data", imageAbsolutePath);
-
                 Uri imageUri = Uri.parse(imageAbsolutePath);
-
-                Intent intent = new Intent(this, ProcessPhotoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ProcessPhotoActivity.class);
                 intent.putExtra("takenPhoto", imageUri);
-
-                System.out.println("Data var: " + data);
-                System.out.println("Saved URI: " + imageAbsolutePath);
-                System.out.println("Image URI: " + imageUri);
 
                 //jump to ProcessTakenPhotoActivity
                 startActivity(intent);

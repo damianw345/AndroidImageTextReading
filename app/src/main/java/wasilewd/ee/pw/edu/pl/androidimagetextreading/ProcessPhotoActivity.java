@@ -1,34 +1,52 @@
 package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import com.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
 
+
 /**
- * Created by dw on 14/12/17.
+ * Created by dw on 17/12/17.
  */
 
 public class ProcessPhotoActivity extends AbstractTesseractActivity {
 
-    private String imagePath;
-    private Uri receivedUri;
-    private Uri takenPhotoUri;
-    private static final int PERMISSION_REQUEST_CODE = 1;
+    private CropImageView cropImageView;
+    private ImageView croppedImageView;
+    private Bitmap croppedImage;
+    private Bitmap unCroppedImage;
+    private Button cropButton;
+    private Button acceptCroppedImageButton;
+
     private boolean photoTaken = false;
     private boolean photoLoaded = false;
-  
+    private Uri receivedUri;
+    private String imagePath;
+    private Uri takenPhotoUri;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tesseract_result);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.cropper_activity);
+
+        cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
+        cropButton = (Button) findViewById(R.id.Button_crop);
+        acceptCroppedImageButton = (Button) findViewById(R.id.Button_next_activity);
+        acceptCroppedImageButton.setVisibility(View.GONE);
 
         if ((Uri)getIntent().getExtras().get("loadedPhoto") != null){
             photoLoaded = true;
@@ -42,33 +60,39 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
             takenPhotoUri = Uri.fromFile(new File(imagePath));
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d("permission", "permission denied to WRITE_EXTERNAL_STORAGE - requesting it");
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE);
-            }
-        }
-        //init image
-        image = null;
         try {
             if (photoLoaded){
-            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), receivedUri);
+                unCroppedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), receivedUri);
             } else if (photoTaken){
-                image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), takenPhotoUri);
+                unCroppedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), takenPhotoUri);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageBitmap(image);
+        // Set tesseractImage to crop
+        cropImageView.setImageBitmap(unCroppedImage);
 
-        initTesseractAPI();
+        cropButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                croppedImage = cropImageView.getCroppedImage();
+                croppedImageView.setImageBitmap(croppedImage);
+                acceptCroppedImageButton.setVisibility(View.VISIBLE);
+                cropButton.setText(R.string.crop_again);
+            }
+        });
+
+        acceptCroppedImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.tesseract_result);
+                ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                imageView.setImageBitmap(croppedImage);
+                tesseractImage = croppedImage;
+                initTesseractAPI();
+            }
+        });
     }
 }
 
