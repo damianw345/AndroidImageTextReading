@@ -1,6 +1,8 @@
 package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import com.edmodo.cropper.CropImageView;
 
@@ -21,13 +24,13 @@ import java.io.IOException;
 
 public class ProcessPhotoActivity extends AbstractTesseractActivity {
 
-    private CropImageView cropImageView;
+    private CropImageView unCroppedImageView;
     private ImageView croppedImageView;
     private Bitmap croppedImage;
     private Bitmap unCroppedImage;
     private Button cropButton;
     private Button acceptCroppedImageButton;
-
+    private SeekBar seekBar;
     private boolean photoTaken = false;
     private boolean photoLoaded = false;
     private Uri receivedUri;
@@ -40,13 +43,18 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.cropper_activity);
+        setContentView(R.layout.process_photo_activity);
 
-        cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+        unCroppedImageView = (CropImageView) findViewById(R.id.CropImageView);
         croppedImageView = (ImageView) findViewById(R.id.croppedImageView);
         cropButton = (Button) findViewById(R.id.Button_crop);
         acceptCroppedImageButton = (Button) findViewById(R.id.Button_next_activity);
         acceptCroppedImageButton.setVisibility(View.GONE);
+
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setMax(360);
+        seekBar.setVisibility(View.GONE);
+
 
         if ((Uri)getIntent().getExtras().get("loadedPhoto") != null){
             photoLoaded = true;
@@ -71,14 +79,16 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
         }
 
         // Set tesseractImage to crop
-        cropImageView.setImageBitmap(unCroppedImage);
+        unCroppedImageView.setImageBitmap(unCroppedImage);
 
         cropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                croppedImage = cropImageView.getCroppedImage();
+                croppedImage = unCroppedImageView.getCroppedImage();
                 croppedImageView.setImageBitmap(croppedImage);
                 acceptCroppedImageButton.setVisibility(View.VISIBLE);
+
+                seekBar.setVisibility(View.VISIBLE);
                 cropButton.setText(R.string.crop_again);
             }
         });
@@ -89,10 +99,36 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
                 setContentView(R.layout.tesseract_result);
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 imageView.setImageBitmap(croppedImage);
-                tesseractImage = croppedImage;
-                initTesseractAPI();
+                initTesseractAPI(croppedImage);
             }
         });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            int degrees = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                croppedImageView.setRotation(progress);
+                degrees = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Bitmap rotatedBitmap = rotateBitmap(croppedImage, degrees);
+                croppedImage = rotatedBitmap;
+            }
+        });
+    }
+
+    private static Bitmap rotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 }
 

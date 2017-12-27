@@ -33,7 +33,9 @@ public abstract class AbstractTesseractActivity extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void initTesseractAPI() {
+    protected void initTesseractAPI(Bitmap tesseractImage) {
+
+        this.tesseractImage = tesseractImage;
 
         String language = "pol";
         datapath = getFilesDir() + "/tesseract/";
