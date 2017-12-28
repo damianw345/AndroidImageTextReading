@@ -1,6 +1,7 @@
 package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -101,7 +102,10 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
                 setContentView(R.layout.tesseract_result);
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
-                croppedImage = rotatedBitmap;
+                if (rotatedBitmap != null){
+                    croppedImage = rotatedBitmap;
+                }
+
                 imageView.setImageBitmap(croppedImage);
                 initTesseractAPI(croppedImage);
             }
@@ -133,8 +137,7 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
         });
     }
 
-    private static Bitmap rotateBitmap(Bitmap source, float angle)
-    {
+    private static Bitmap rotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
