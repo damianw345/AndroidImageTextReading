@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.edmodo.cropper.CropImageView;
 
@@ -28,6 +29,7 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
     private ImageView croppedImageView;
     private Bitmap croppedImage;
     private Bitmap unCroppedImage;
+    private Bitmap rotatedBitmap;
     private Button cropButton;
     private Button acceptCroppedImageButton;
     private SeekBar seekBar;
@@ -98,6 +100,8 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
             public void onClick(View v) {
                 setContentView(R.layout.tesseract_result);
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+                croppedImage = rotatedBitmap;
                 imageView.setImageBitmap(croppedImage);
                 initTesseractAPI(croppedImage);
             }
@@ -114,12 +118,17 @@ public class ProcessPhotoActivity extends AbstractTesseractActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                rotatedBitmap = croppedImage;
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Bitmap rotatedBitmap = rotateBitmap(croppedImage, degrees);
-                croppedImage = rotatedBitmap;
+
+                Toast.makeText(ProcessPhotoActivity.this, "Degrees: " + degrees
+                        , Toast.LENGTH_SHORT).show();
+
+                rotatedBitmap = rotateBitmap(croppedImage, degrees);
             }
         });
     }
