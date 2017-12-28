@@ -22,17 +22,17 @@
             android:textSize="24sp"
             android:textStyle="bold"/>
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <com.edmodo.cropper.CropImageView
             android:id="@+id/CropImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/content_padding"
             android:scaleType="centerInside"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/croppedImageView"
