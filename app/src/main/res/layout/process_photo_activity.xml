@@ -19,8 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/title"
+            android:textColor="@android:color/background_light"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <com.edmodo.cropper.CropImageView
             android:id="@+id/CropImageView"
@@ -48,10 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/content_padding"
+            android:background="@color/colorPrimary"
             android:minWidth="120dp"
             android:text="@string/crop"
-            android:textColor="#33B5E5"
-            android:textSize="20sp"/>
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/Button_next_activity"
@@ -59,10 +61,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/content_padding"
+            android:background="@color/colorPrimary"
             android:minWidth="120dp"
             android:text="@string/accept_cropped_image"
-            android:textColor="#33B5E5"
-            android:textSize="20sp"/>
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
