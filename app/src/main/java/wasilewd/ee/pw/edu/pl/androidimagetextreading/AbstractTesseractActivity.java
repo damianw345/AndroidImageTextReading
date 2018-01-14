@@ -1,21 +1,30 @@
 package wasilewd.ee.pw.edu.pl.androidimagetextreading;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dw on 14/12/17.
@@ -55,6 +64,73 @@ public abstract class AbstractTesseractActivity extends Activity {
         OCRTextView.setText(OCRresult);
         editText.setText(OCRresult);
     }
+
+    protected void saveResult(View view) {
+        TextView OCRTextView = (TextView) findViewById(R.id.EditableText);
+
+        try{
+            List<String> previousResults = new ArrayList<String>();
+            String previousResultsList;
+            previousResultsList = "" + readFromFile(getApplicationContext());
+            previousResults = new Gson().fromJson(previousResultsList, new TypeToken<ArrayList<String>>(){}.getType());
+            String Data = new String();
+            Data = "" + OCRTextView.getText();
+            previousResults.add(Data);
+            String json = new Gson().toJson(previousResults);
+            writeToFile(json,getApplicationContext());
+        }
+        catch (Exception e){
+            String Data = new String();
+            Data = "" + OCRTextView.getText();
+            List<String> results = new ArrayList<String>();
+            results.add(Data);
+            String json = new Gson().toJson(results);
+            writeToFile(json,getApplicationContext());
+        }
+    }
+
+    private void writeToFile(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("results.json", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+            Log.e("Info", "File write OK." );
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private String readFromFile(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput("results.json");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
+    }
+
 
     private void checkFile(File dir) {
         if (!dir.exists() && dir.mkdirs()) {
