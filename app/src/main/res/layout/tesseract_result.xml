@@ -77,6 +77,48 @@
       </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/SaveButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:onClick="saveResult"
+        tools:background="@color/colorPrimary">
+
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/SAVEbutton"
+            android:text="Save Results"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:onClick="saveResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF405D86"
+            app:spinning_bar_color="#FF405D86"
+            app:spinning_bar_padding="6dp"
+            app:spinning_bar_width="4dp"
+            />
+
+
+        <!--  <TextView
+              android:id="@+id/OCRbutton"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerHorizontal="true"
+              android:layout_centerVertical="true"
+              android:clickable="true"
+              android:onClick="processImage"
+              android:text="Run OCR"
+              android:textColor="@android:color/black"
+              android:textSize="18dp" /> -->
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
