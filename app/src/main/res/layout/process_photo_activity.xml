@@ -33,7 +33,9 @@
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp" />
 
         <ImageView
             android:id="@+id/croppedImageView"
@@ -50,6 +52,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/content_padding"
             android:background="@color/colorPrimary"
+            android:drawableTop="@drawable/crop"
             android:minWidth="120dp"
             android:text="@string/crop"
             android:textColor="@android:color/black"
@@ -62,6 +65,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/content_padding"
             android:background="@color/colorPrimary"
+            android:drawableTop="@drawable/accept"
             android:minWidth="120dp"
             android:text="@string/accept_cropped_image"
             android:textColor="@android:color/black"

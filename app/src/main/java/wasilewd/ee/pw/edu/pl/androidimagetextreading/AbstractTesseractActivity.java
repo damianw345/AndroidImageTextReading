@@ -50,7 +50,7 @@ public abstract class AbstractTesseractActivity extends Activity {
         String OCRresult = null;
         mTess.setImage(tesseractImage);
         OCRresult = mTess.getUTF8Text();
-        TextView OCRTextView = (TextView) findViewById(R.id.OCRTextView);
+        TextView OCRTextView = (TextView) findViewById(R.id.EditableText);
         EditText editText = findViewById(R.id.EditableText);
         OCRTextView.setText(OCRresult);
         editText.setText(OCRresult);

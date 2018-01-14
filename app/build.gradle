@@ -38,4 +38,9 @@ dependencies {
 
 
     testCompile 'junit:junit:4.12'
+
+
+
+//Add library
+    compile 'br.com.simplepass:loading-button-android:1.7.2'
 }

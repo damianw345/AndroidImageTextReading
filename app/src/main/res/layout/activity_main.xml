@@ -1,37 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-android:orientation="vertical"
-android:weightSum="10"
-tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/takePhotoButton"
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:onClick="jumpToTakePhotoActivity"
-        android:text="Take new photo" />
+        android:layout_height="195dp">
 
-    <Button
-        android:id="@+id/button2"
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/blue" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            app:srcCompat="@drawable/books" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:onClick="jumpToLoadPhotoActivity"
-        android:text="Load photo" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:scrollbars="none"
+        android:weightSum="10"
+        tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.MainActivity">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test Cropper"
-        android:onClick="jumpToCropperActivity"/>
+        <Button
+            android:id="@+id/takePhotoButton"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="200dp"
+            android:drawableTop="@drawable/camera"
+            android:onClick="jumpToTakePhotoActivity"
+            android:scrollbars="none"
+            android:text="Take new photo"
+            android:textSize="25sp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/LoadPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:drawableTop="@drawable/galery"
+            android:nestedScrollingEnabled="false"
+            android:onClick="jumpToLoadPhotoActivity"
+            android:scrollbars="none"
+            android:text="Load photo"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 

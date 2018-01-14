@@ -11,11 +11,21 @@
     android:weightSum="10"
     tools:context="wasilewd.ee.pw.edu.pl.androidimagetextreading.TakePhotoActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="332dp"
+        android:drawableTop="@drawable/bulb"
+        android:text="Remember about              good lighting"
+        android:textAlignment="center"
+        android:textColor="?attr/colorButtonNormal"
+        android:textSize="35sp" />
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_weight="9"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="27dp"
+        android:layout_weight="9" />
 
     <Button
         android:id="@+id/btnCamera"
@@ -23,8 +33,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorPrimary"
+        android:drawableTop="@drawable/camera"
         android:text="Open Camera"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
 
 </LinearLayout>
