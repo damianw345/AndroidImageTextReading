@@ -7,10 +7,11 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:scaleType="fitCenter"
         android:id="@+id/introImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/androract"
+        android:src="@drawable/logo"
         android:contentDescription="@string/androract_logo"/>
 
 </LinearLayout>

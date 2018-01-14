@@ -42,7 +42,7 @@ public class ShowResultsActivity extends Activity {
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_1,
+                R.layout.list_item,
                 your_array_list );
 
         lv.setAdapter(arrayAdapter);

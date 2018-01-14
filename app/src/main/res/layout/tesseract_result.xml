@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="4px"
+    android:background="@drawable/background_darker">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +19,7 @@
         android:id="@+id/ImageContainer"
         android:layout_width="match_parent"
         android:layout_height="211dp"
-        android:background="#ffffff">
+        >
 
         <ImageView
             android:id="@+id/imageView"
@@ -22,17 +28,10 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="12dp"/>
-            <!--android:src="@drawable/paragon" />-->
 
-        <!--android:src="@drawable/test_image" />-->
 
     </RelativeLayout>
-    <!--<ProgressBar-->
-        <!--android:id="@+id/progressBar1"-->
-        <!--style="?android:attr/progressBarStyleLarge"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerHorizontal="true" />-->
+
 
     <RelativeLayout
         android:id="@+id/OCRButtonContainer"
@@ -40,39 +39,37 @@
         android:layout_height="61dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
+
         android:clickable="true"
         android:onClick="processImage"
         tools:background="@color/colorPrimary">
 
-       <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+       <!--<br.com.simplepass.loading_button_lib.customViews.CircularProgressButton-->
+            <!--android:id="@+id/OCRbutton"-->
+            <!--android:text="Run OCR"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="processImage"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#707070"-->
+            <!--app:spinning_bar_color="#FF405D86"-->
+            <!--app:spinning_bar_padding="6dp"-->
+            <!--app:spinning_bar_width="4dp"-->
+            <!--/>-->
+        <Button
             android:id="@+id/OCRbutton"
-            android:text="Run OCR"
-            android:textColor="@android:color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:onClick="processImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FF405D86"
-            app:spinning_bar_color="#FF405D86"
-            app:spinning_bar_padding="6dp"
-            app:spinning_bar_width="4dp"
-            />
-
-
-        <!--  <TextView
-              android:id="@+id/OCRbutton"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerHorizontal="true"
-              android:layout_centerVertical="true"
-              android:clickable="true"
-              android:onClick="processImage"
-              android:text="Run OCR"
-              android:textColor="@android:color/black"
-              android:textSize="18dp" /> -->
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Run OCR"
+            android:onClick="processImage"
+            android:clickable="true"
+            android:textColor="@android:color/black"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:textSize="20sp" />
 
       </RelativeLayout>
 
@@ -82,39 +79,38 @@
         android:layout_height="61dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
+
         android:clickable="true"
         android:onClick="saveResult"
         tools:background="@color/colorPrimary">
 
-        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        <!--<br.com.simplepass.loading_button_lib.customViews.CircularProgressButton-->
+            <!--android:id="@+id/SAVEbutton"-->
+            <!--android:text="Save Results"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="saveResult"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="#707070"-->
+            <!--app:spinning_bar_color="#FF405D86"-->
+            <!--app:spinning_bar_padding="6dp"-->
+            <!--app:spinning_bar_width="4dp"-->
+            <!--/>-->
+        <Button
             android:id="@+id/SAVEbutton"
-            android:text="Save Results"
-            android:textColor="@android:color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:onClick="saveResult"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FF405D86"
-            app:spinning_bar_color="#FF405D86"
-            app:spinning_bar_padding="6dp"
-            app:spinning_bar_width="4dp"
-            />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Save Results"
+            android:onClick="saveResult"
+            android:clickable="true"
+            android:textColor="@android:color/black"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:textSize="20sp" />
 
-
-        <!--  <TextView
-              android:id="@+id/OCRbutton"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerHorizontal="true"
-              android:layout_centerVertical="true"
-              android:clickable="true"
-              android:onClick="processImage"
-              android:text="Run OCR"
-              android:textColor="@android:color/black"
-              android:textSize="18dp" /> -->
 
     </RelativeLayout>
 
@@ -130,3 +126,4 @@
             android:textColor="@android:color/background_light" />
     </RelativeLayout>
 </LinearLayout>
+</RelativeLayout>
