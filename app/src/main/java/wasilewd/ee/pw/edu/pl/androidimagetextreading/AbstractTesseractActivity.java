@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -86,6 +87,9 @@ public abstract class AbstractTesseractActivity extends Activity {
             results.add(Data);
             String json = new Gson().toJson(results);
             writeToFile(json,getApplicationContext());
+        } finally {
+            // TOAST PROBABLY SHOULD BE MOVED SOMEWHERE ELSE
+            Toast.makeText(this, "Text saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
